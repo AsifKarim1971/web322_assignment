@@ -13,3 +13,5 @@ app.get('/',(req,res) =>
     res.send("Md Asif Karim - 116316233");
 });
 
+// start the server on the port and output a confirmation to the console
+app.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
