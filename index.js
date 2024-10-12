@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3243;
+const contentService = require("./content-service");
 
 app.use(express.static("public"));
 
@@ -11,7 +12,7 @@ contentService
     console.log("Content service initialized");
 
     app.get("/", (req, res) => {
-      res.redirect("/about");
+      res.redirect("/home");
     });
 
     // Serve 'home.html' from the 'views' folder
@@ -22,6 +23,28 @@ contentService
     // Serve 'about.html' from the 'views' folder
     app.get("/about", (req, res) => {
       res.sendFile(__dirname + "/views/about.html");
+    });
+
+    app.get("/articles", (req, res) => {
+      contentService
+        .getPublishedArticles()
+        .then((articles) => {
+          res.json(articles);
+        })
+        .catch((err) => {
+          res.json({ message: err });
+        });
+    });
+
+    app.get("/categories", (req, res) => {
+      contentService
+        .getCategories()
+        .then((categories) => {
+          res.json(categories);
+        })
+        .catch((err) => {
+          res.json({ message: err });
+        });
     });
 
     app.listen(port, () => {
