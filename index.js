@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const port = 3243;
 const contentService = require("./content-service");
@@ -17,12 +18,12 @@ contentService
 
     // Serve 'home.html' from the 'views' folder
     app.get("/home", (req, res) => {
-      res.sendFile(__dirname + "/views/home.html");
+      res.sendFile(path.join(__dirname, "views", "home.html"));
     });
 
     // Serve 'about.html' from the 'views' folder
     app.get("/about", (req, res) => {
-      res.sendFile(__dirname + "/views/about.html");
+      res.sendFile(path.join(__dirname, "views", "about.html"));
     });
 
     app.get("/articles", (req, res) => {
@@ -54,4 +55,5 @@ contentService
   .catch((err) => {
     console.log(err);
   });
-  module.exports = app;
+
+module.exports = app;
