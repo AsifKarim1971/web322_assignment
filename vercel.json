@@ -1,8 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/home", "destination": "/home" },
-    { "source": "/about", "destination": "/about" },
-    { "source": "/articles", "destination": "/articles" },
-    { "source": "/categories", "destination": "/categories" }
+  "version": 2,
+  "builds": [
+    { "src": "index.js", "use": "@vercel/node" }
   ]
 }
