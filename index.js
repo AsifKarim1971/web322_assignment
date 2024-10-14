@@ -6,58 +6,18 @@ const contentService = require("./content-service");
 
 app.use(express.static("public"));
 
-// Initialize content service
-contentService
-  .initialize()
-  .then(() => {
-    console.log("Content service initialized");
+// Serve static files from the 'public' directory
+app.use(express.static("public"));
 
-    app.get("/", (req, res) => {
-      res.redirect("/about");
-    });
+// Root route that serves a simple text response
+app.get("/", (req, res) => {
+    res.send("Hello, World!");
+});
 
-    // Serve 'home.html' from the 'views' folder
-    app.get("/home", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "home.html"));
-    });
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
 
-    // Serve 'about.html' from the 'views' folder
-    app.get("/about", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "about.html"));
-    });
-    
-    app.get('/favicon.ico', (req, res) => {
-      res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
-    });
-  
-    app.get("/articles", (req, res) => {
-      contentService
-        .getPublishedArticles()
-        .then((articles) => {
-          res.json(articles);
-        })
-        .catch((err) => {
-          res.json({ message: err });
-        });
-    });
+module.exports = app;  // Export the app for Vercel deployment
 
-    app.get("/categories", (req, res) => {
-      contentService
-        .getCategories()
-        .then((categories) => {
-          res.json(categories);
-        })
-        .catch((err) => {
-          res.json({ message: err });
-        });
-    });
-
-    app.listen(port, () => {
-      console.log(`Express http server listening on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-module.exports = app;
