@@ -5,7 +5,7 @@ const app = express();
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
-// Serve a simple message at the root for testing
+// Root route
 app.get("/", (req, res) => {
     res.send("Root route is working!");
 });
@@ -29,6 +29,3 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = app;
-
-
-
