@@ -54,3 +54,6 @@ contentService.initialize()
   .catch(err => {
     console.error("Failed to initialize content service:", err.message);
   });
+
+// Export the app for Vercel to handle as a serverless function if needed
+module.exports = app;

@@ -4,17 +4,20 @@ const path = require("path");
 let articles = [];
 let categories = [];
 
+const articlesPath = path.resolve(__dirname, './data/articles.json');
+const categoriesPath = path.resolve(__dirname, './data/categories.json');
+
 module.exports = {
   initialize: function () {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(__dirname, "data", "articles.json"), "utf8", (err, data) => {
+      fs.readFile(articlesPath, "utf8", (err, data) => {
         if (err) {
           console.error("Error reading articles file:", err);
           reject(err);
           return;
         }
         articles = JSON.parse(data);
-        fs.readFile(path.join(__dirname, "data", "categories.json"), "utf8", (err, data) => {
+        fs.readFile(categoriesPath, "utf8", (err, data) => {
           if (err) {
             console.error("Error reading categories file:", err);
             reject(err);
