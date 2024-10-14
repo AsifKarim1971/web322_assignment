@@ -1,59 +1,54 @@
 const express = require("express");
-const path = require("path"); // {{ edit_1 }}
+const path = require("path");
 const app = express();
 const port = 4000;
 const contentService = require("./content-service");
 
-// app.use(express.static("public"));
+// Serve static files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize content service
-contentService
-  .initialize()
+contentService.initialize()
   .then(() => {
     console.log("Content service initialized");
 
-    // Serve 'about.html' from the root route
-    app.get("/", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "about.html")); 
+    // Serve 'about.html' from the root and '/about' routes
+    app.get(["/", "/about"], (req, res) => {
+      res.sendFile(path.join(__dirname, "views", "about.html"));
     });
 
-    // Serve 'about.html' from the '/about' route
-    app.get("/about", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "about.html")); // Updated to serve 'about.html'
-    });
-
+    // Route for fetching published articles
     app.get("/articles", (req, res) => {
-      contentService
-        .getPublishedArticles()
+      contentService.getPublishedArticles()
         .then((articles) => {
           res.json(articles);
         })
         .catch((err) => {
-          res.status(500).json({ message: "Internal Server Error", error: err.message }); // {{ edit_3 }}
+          res.status(500).json({ message: "Internal Server Error", error: err.message });
         });
     });
 
+    // Route for fetching categories
     app.get("/categories", (req, res) => {
-      contentService
-        .getCategories()
+      contentService.getCategories()
         .then((categories) => {
           res.json(categories);
         })
         .catch((err) => {
-          res.status(500).json({ message: "Internal Server Error", error: err.message }); // {{ edit_4 }}
+          res.status(500).json({ message: "Internal Server Error", error: err.message });
         });
     });
 
-    // Favicon request handler
+    // Handler for favicon requests
     app.get("/favicon.ico", (req, res) => {
-      res.status(204).end(); // {{ edit_1 }}
+      res.status(204).end();
     });
 
+    // Start the server
     app.listen(port, () => {
       console.log(`Express http server listening on port ${port}`);
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.error("Failed to initialize content service:", err);
   });
