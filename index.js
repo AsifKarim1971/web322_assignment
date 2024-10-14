@@ -13,9 +13,9 @@ contentService.initialize()
   .then(() => {
     console.log("Content service initialized");
 
-    // Redirect root to '/about'
+    // Serve a simple message at the root for testing
     app.get("/", (req, res) => {
-      res.redirect("/about");
+      res.send("Root route is working!");
     });
 
     // Serve 'home.html' from the 'views' folder
@@ -42,7 +42,7 @@ contentService.initialize()
         .catch(err => res.status(500).json({ message: "Error retrieving categories", error: err }));
     });
 
-    // Only start listening on a port if not in production (Vercel will handle this automatically in production)
+    // Only start listening on a port if not in production (Vercel handles this automatically)
     if (process.env.NODE_ENV !== 'production') {
       const port = process.env.PORT || 3000;
       app.listen(port, () => {
@@ -55,7 +55,6 @@ contentService.initialize()
   });
 
 module.exports = app;
-
 
 
 
