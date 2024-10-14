@@ -20,10 +20,11 @@ contentService.initialize()
     // Route for fetching published articles
     app.get("/articles", (req, res) => {
       contentService.getPublishedArticles()
-        .then((articles) => {
+        .then(articles => {
           res.json(articles);
         })
-        .catch((err) => {
+        .catch(err => {
+          console.error("Error fetching published articles:", err);
           res.status(500).json({ message: "Internal Server Error", error: err.message });
         });
     });
@@ -31,10 +32,11 @@ contentService.initialize()
     // Route for fetching categories
     app.get("/categories", (req, res) => {
       contentService.getCategories()
-        .then((categories) => {
+        .then(categories => {
           res.json(categories);
         })
-        .catch((err) => {
+        .catch(err => {
+          console.error("Error fetching categories:", err);
           res.status(500).json({ message: "Internal Server Error", error: err.message });
         });
     });
@@ -49,6 +51,6 @@ contentService.initialize()
       console.log(`Express http server listening on port ${port}`);
     });
   })
-  .catch((err) => {
+  .catch(err => {
     console.error("Failed to initialize content service:", err.message);
   });
