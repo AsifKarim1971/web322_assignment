@@ -25,7 +25,11 @@ contentService
     app.get("/about", (req, res) => {
       res.sendFile(path.join(__dirname, "views", "about.html"));
     });
-
+    
+    app.get('/favicon.ico', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+    });
+  
     app.get("/articles", (req, res) => {
       contentService
         .getPublishedArticles()
