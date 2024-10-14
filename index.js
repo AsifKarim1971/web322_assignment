@@ -12,7 +12,7 @@ contentService
     console.log("Content service initialized");
 
     app.get("/", (req, res) => {
-      res.redirect("/home");
+      res.redirect("/about");
     });
 
     // Serve 'home.html' from the 'views' folder
