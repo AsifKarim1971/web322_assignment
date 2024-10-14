@@ -9,18 +9,18 @@ module.exports = {
     return new Promise((resolve, reject) => {
       fs.readFile(path.join(__dirname, "data", "articles.json"), "utf8", (err, data) => {
         if (err) {
-          reject(err);
-        } else {
-          articles = JSON.parse(data);
-          fs.readFile(path.join(__dirname, "data", "categories.json"), "utf8", (err, data) => {
-            if (err) {
-              reject(err);
-            } else {
-              categories = JSON.parse(data);
-              resolve();
-            }
-          });
+          reject(`Failed to read articles file: ${err.message}`);
+          return;
         }
+        articles = JSON.parse(data);
+        fs.readFile(path.join(__dirname, "data", "categories.json"), "utf8", (err, data) => {
+          if (err) {
+            reject(`Failed to read categories file: ${err.message}`);
+            return;
+          }
+          categories = JSON.parse(data);
+          resolve();
+        });
       });
     });
   },

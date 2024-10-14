@@ -50,5 +50,5 @@ contentService.initialize()
     });
   })
   .catch((err) => {
-    console.error("Failed to initialize content service:", err);
+    console.error("Failed to initialize content service:", err.message);
   });
