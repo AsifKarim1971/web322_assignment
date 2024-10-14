@@ -1,36 +1,62 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const port = 3243;
 const contentService = require("./content-service");
 
+app.use(express.static("public"));
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
+// Initialize content service
+contentService
+  .initialize()
+  .then(() => {
+    console.log("Content service initialized");
 
-// Simple root route that sends a text response
-app.get('/', (req, res) => {
-    res.send('Welcome to the homepage! Everything is working fine.');
-});
+    app.get("/", (req, res) => {
+      res.redirect("/about");
+    });
 
-// Serve 'home.html' from the 'views' folder
-app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'home.html'));
-});
+    // Serve 'home.html' from the 'views' folder
+    app.get("/home", (req, res) => {
+      res.sendFile(path.join(__dirname, "views", "home.html"));
+    });
 
-// Serve 'about.html' from the 'views' folder
-app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'about.html'));
-});
+    // Serve 'about.html' from the 'views' folder
+    app.get("/about", (req, res) => {
+      res.sendFile(path.join(__dirname, "views", "about.html"));
+    });
 
-// Catch-all for any other requests, which aren't defined
-app.get('*', (req, res) => {
-    res.status(404).send('404 Not Found');
-});
+    app.get("/articles", (req, res) => {
+      contentService
+        .getPublishedArticles()
+        .then((articles) => {
+          res.json(articles);
+        })
+        .catch((err) => {
+          res.json({ message: err });
+        });
+    });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+    app.get("/categories", (req, res) => {
+      contentService
+        .getCategories()
+        .then((categories) => {
+          res.json(categories);
+        })
+        .catch((err) => {
+          res.json({ message: err });
+        });
+    });
 
-module.exports = app;  // Export the app for Vercel deployment
+    // No need to specify a port for Vercel; it handles it automatically
+    if (process.env.NODE_ENV !== 'production') {
+      const port = process.env.PORT || 3243;
+      app.listen(port, () => {
+        console.log(`Express http server listening on port ${port}`);
+      });
+    }
+  })
+  .catch((err) => {
+    console.log("Error initializing content service:", err);
+  });
+
+module.exports = app;
