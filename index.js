@@ -17,6 +17,11 @@ contentService.initialize()
       res.sendFile(path.join(__dirname, "views", "about.html"));
     });
 
+    // Serve 'home.html' from the '/home' route
+    app.get("/home", (req, res) => {
+      res.sendFile(path.join(__dirname, "views", "home.html"));
+    });
+
     // Route for fetching published articles
     app.get("/articles", (req, res) => {
       contentService.getPublishedArticles()
