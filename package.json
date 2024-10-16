@@ -12,5 +12,6 @@
     "as2-p1s3": "file:",
     "express": "^4.21.1",
     "nodemon": "^3.1.7"
-  }
+  },
+  "keywords": []
 }
