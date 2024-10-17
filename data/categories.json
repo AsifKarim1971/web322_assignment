@@ -1,11 +1,12 @@
 [
-    {
-      "id": 1,
-      "name": "Technology"
-    },
-    {
-      "id": 2,
-      "name": "Lifestyle"
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Technology",
+    "image": "/images/Technology.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Lifestyle",
+    "image": "/images/Lifestyle.webp"
+  }
+]
