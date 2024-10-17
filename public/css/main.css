@@ -115,7 +115,11 @@ ul li {
 
 /* footer */
 .footer {
+<<<<<<< HEAD
   background-color: #000;
+=======
+  background-color: black;
+>>>>>>> 5345b6a9a11b3d4056aa66c533aaf98483f651e8
   color: #fff;
   padding: 2px;
   position: relative;
